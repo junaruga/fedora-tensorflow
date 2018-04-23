@@ -8,8 +8,10 @@ Summary:        TensorFlow helps the tensors flow
 
 License:        Apache 2.0
 URL:            https://www.tensorflow.org/
-Source0:        https://files.pythonhosted.org/packages/source/t/%{pypi_name}/%{pypi_name}-%{version}-cp33-cp33m-macosx_10_11_x86_64.whl
- 
+Source0:        https://github.com/tensorflow/tensorflow/archive/v%{version}.tar.gz
+
+BuildRequires:  gcc-c++
+BuildRequires:  bazel
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(absl-py) >= 0.1.6
 BuildRequires:  python3dist(astor) >= 0.6.0
@@ -37,12 +39,13 @@ BuildRequires:  python3dist(wheel) >= 0.26
 BuildRequires:  python3dist(setuptools)
 
 %description
-UNKNOWN
+TensorFlow is an open source software library for numerical computation using
+data flow graphs.
 
 %package -n     python3-%{pypi_name}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{pypi_name}}
- 
+
 Requires:       python3dist(absl-py) >= 0.1.6
 Requires:       python3dist(astor) >= 0.6.0
 Requires:       python3dist(gast) >= 0.2.0
@@ -56,16 +59,16 @@ Requires:       python3dist(termcolor) >= 1.1.0
 Requires:       python3dist(wheel) >= 0.26
 Requires:       python3dist(setuptools)
 %description -n python3-%{pypi_name}
-UNKNOWN
+TensorFlow is an open source software library for numerical computation using
+data flow graphs. This package contains the python3 version of this module.
 
 
 %prep
-%autosetup -n %{pypi_name}-%{version}.d
-# Remove bundled egg-info
-rm -rf %{pypi_name}.egg-info
+%setup -q -c -n %{name}-%{version}
 
 %build
-%py3_build
+#%%py3_build
+./configure
 
 %install
 %py3_install
